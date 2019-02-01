@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
+    <title>TaVue</title>
+    <meta name="description" content="GitHub" />
+    <meta name="twitter:card" content="summary" />
+    <meta property="og:title" content="TaVue" />
+    <meta property="og:description" content="GitHub" />
+    <meta property="og:site_name" content="TaVue | GitHub" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.4.4/vuetify.min.css" rel="stylesheet" />
+    <style>
+      #app { background: #ffff8d }
+      [v-cloak] { display: none }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <v-app v-cloak>
+        <v-content v-if="f === 'left'">
+          <v-container fluid>
+            <v-radio-group v-model="b.a" @change="localStorage.setItem('b', JSON.stringify(b))" row>
+              <v-radio
+                v-for="i in n.length"
+                :key="i"
+                :label="n.charAt(i - 1)"
+                :value="n.charAt(i - 1)"
+              ></v-radio>
+            </v-radio-group>
+            <v-radio-group v-model="b.b" @change="localStorage.setItem('b', JSON.stringify(b))" row>
+              <v-radio
+                v-for="i in m.length"
+                :key="i"
+                :label="m.charAt(i - 1)"
+                :value="m.charAt(i - 1)"
+              ></v-radio>
+            </v-radio-group>
+            <v-radio-group v-model="b.c" @change="localStorage.setItem('b', JSON.stringify(b))" row>
+              <v-radio
+                v-for="i in l.length"
+                :key="i"
+                :label="l.charAt(i - 1)"
+                :value="l.charAt(i - 1)"
+              ></v-radio>
+            </v-radio-group>
+          </v-container>
+          <v-container fluid>
+            <span class="title">Text: {{ b.a }}{{ b.b }}{{ b.c }}</span>
+          </v-container>
+          <v-container fluid>
+            <v-btn @click="myApp(1)">random</v-btn>
+            <v-btn @click="myApp(4)">reset</v-btn>
+          </v-container>
+        </v-content>
+        <v-content v-if="f === 'center'">
+          <v-container fluid>
+            <v-list two-line>
+              <v-subheader>Timeline</v-subheader>
+              <v-list-tile v-for="i in a" :key="i">
+                <v-list-tile-action>
+                  <v-list-tile-avatar color="secondary">
+                    <span class="white--text" v-text="i.a + i.b"></span>
+                  </v-list-tile-avatar>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title v-text="i.c + i.d + i.e"></v-list-tile-title>
+                  <v-list-tile-sub-title v-text="new Date(i.f).toLocaleString()"></v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-container>
+          <v-container fluid>
+            <span class="headline">{{ c.a }}{{ c.b }}: {{ b.a }}{{ b.b }}{{ b.c }}</span>
+          </v-container>
+          <v-container fluid>
+            <v-btn :disabled="a.length > 9" @click="myApp(0)">post</v-btn>
+          </v-container>
+        </v-content>
+        <v-content v-if="f === 'right'">
+          <v-container fluid>
+            <v-radio-group v-model="c.a" @change="localStorage.setItem('c', JSON.stringify(c))" row>
+              <v-radio
+                v-for="i in n.length"
+                :key="i"
+                :label="n.charAt(i - 1)"
+                :value="n.charAt(i - 1)"
+              ></v-radio>
+            </v-radio-group>
+            <v-radio-group v-model="c.b" @change="localStorage.setItem('c', JSON.stringify(c))" row>
+              <v-radio
+                v-for="i in m.length"
+                :key="i"
+                :label="m.charAt(i - 1)"
+                :value="m.charAt(i - 1)"
+              ></v-radio>
+            </v-radio-group>
+          </v-container>
+          <v-container fluid>
+            <span class="title">Name: {{ c.a }}{{ c.b }}</span>
+          </v-container>
+          <v-container fluid>
+            <v-btn @click="myApp(2)">random</v-btn>
+            <v-btn @click="myApp(5)">reset</v-btn>
+          </v-container>
+          <v-container fluid>
+            <span class="subheading">Main</span>
+            <v-switch label="Speak" v-model="c.c"></v-switch>
+          </v-container>
+        </v-content>
+        <v-bottom-nav
+          app
+          :active.sync="f"
+          :value="true"
+          color="yellow accent-1"
+        >
+          <v-btn flat color="blue accent-1" value="left">
+            <span>Edit</span>
+            <v-icon>edit</v-icon>
+          </v-btn>
+          <v-btn flat color="blue accent-1" value="center">
+            <span>Main</span>
+            <v-icon>chat</v-icon>
+          </v-btn>
+          <v-btn flat color="blue accent-1" value="right">
+            <span>Settings</span>
+            <v-icon>settings</v-icon>
+          </v-btn>
+        </v-bottom-nav>
+      </v-app>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.4.4/vuetify.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
+    <script>
+      firebase.initializeApp({ databaseURL: 'https://kitaharatavue.firebaseio.com/' });
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          a: [],
+          b: { a: 'V', b: 'u', c: 'e' },
+          c: { a: 'T', b: 'a', c: false },
+          f: 'center',
+          n: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+          m: 'aiueo',
+          l: 'aiueon'
+        },
+        mounted() {
+          firebase.database().ref('t').limitToLast(5).on('child_added', snapshot => this.a.push({...snapshot.val(), id: snapshot.key}));
+          if (localStorage.getItem('b') !== null) {
+            this.b = JSON.parse(localStorage.getItem('b'));
+          }
+          if (localStorage.getItem('c') !== null) {
+            this.c = JSON.parse(localStorage.getItem('c'));
+          }
+        },
+        methods: {
+          myApp(x) {
+            if (x === 0) {
+              const d = new Date().getTime();
+              const t = {
+                a: this.c.a,
+                b: this.c.b,
+                c: this.b.a,
+                d: this.b.b,
+                e: this.b.c,
+                f: d
+              };
+              firebase.database().ref('t').push(t);
+              if (this.c.c === true) {
+                const s = new SpeechSynthesisUtterance();
+                s.lang = 'en-US'; // ja-JP
+                s.text = this.c.a + this.c.b + ': ' + this.b.a + this.b.b + this.b.c;
+                speechSynthesis.speak(s);
+              }
+              localStorage.setItem('a', JSON.stringify(this.a));
+            }
+            if (x === 1) {
+              this.b.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
+              this.b.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
+              this.b.c = this.l.charAt(Math.floor(Math.random() * this.l.length));
+              localStorage.setItem('b', JSON.stringify(this.b));
+            }
+            if (x === 2) {
+              this.c.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
+              this.c.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
+              localStorage.setItem('c', JSON.stringify(this.c));
+            }
+            if (x === 3) {
+              this.a = [];
+              localStorage.removeItem('a');
+            }
+            if (x === 4) {
+              this.b.a = 'V';
+              this.b.b = 'u';
+              this.b.c = 'e';
+              localStorage.removeItem('b');
+            }
+            if (x === 5) {
+              this.c.a = 'T';
+              this.c.b = 'a';
+              this.c.c = false;
+              localStorage.removeItem('c');
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
