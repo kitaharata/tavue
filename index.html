@@ -10,7 +10,7 @@
     <meta property="og:description" content="GitHub" />
     <meta property="og:site_name" content="TaVue | GitHub" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.4.4/vuetify.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.1/vuetify.min.css" rel="stylesheet" />
     <style>
       #app { background: #ffff8d }
       [v-cloak] { display: none }
@@ -130,8 +130,8 @@
         </v-bottom-nav>
       </v-app>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.4.4/vuetify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.6/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.1/vuetify.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
     <script>
       firebase.initializeApp({ databaseURL: 'https://kitaharatavue.firebaseio.com/' });
@@ -174,7 +174,6 @@
                 s.text = this.c.a + this.c.b + ': ' + this.b.a + this.b.b + this.b.c;
                 speechSynthesis.speak(s);
               }
-              localStorage.setItem('a', JSON.stringify(this.a));
             }
             if (x === 1) {
               this.b.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
@@ -186,10 +185,6 @@
               this.c.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
               this.c.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
               localStorage.setItem('c', JSON.stringify(this.c));
-            }
-            if (x === 3) {
-              this.a = [];
-              localStorage.removeItem('a');
             }
             if (x === 4) {
               this.b.a = 'V';
