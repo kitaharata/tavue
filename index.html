@@ -9,12 +9,11 @@
     <meta property="og:title" content="TaVue" />
     <meta property="og:description" content="GitHub" />
     <meta property="og:site_name" content="TaVue | GitHub" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.1/vuetify.min.css" rel="stylesheet" />
-    <style>
-      #app { background: #ffff8d }
-      [v-cloak] { display: none }
-    </style>
+    <link href="manifest.json" rel="manifest" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.7.95/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.0.0-beta.3/vuetify.min.css" rel="stylesheet" />
+    <style>[v-cloak] { display: none }</style>
   </head>
   <body>
     <div id="app">
@@ -58,17 +57,17 @@
           <v-container fluid>
             <v-list two-line>
               <v-subheader>Timeline</v-subheader>
-              <v-list-tile v-for="i in a" :key="i">
-                <v-list-tile-action>
-                  <v-list-tile-avatar color="secondary">
+              <v-list-item v-for="i in a" :key="i">
+                <v-list-item-action>
+                  <v-list-item-avatar color="secondary">
                     <span class="white--text" v-text="i.a + i.b"></span>
-                  </v-list-tile-avatar>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title v-text="i.c + i.d + i.e"></v-list-tile-title>
-                  <v-list-tile-sub-title v-text="new Date(i.f).toLocaleString()"></v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
+                  </v-list-item-avatar>
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title v-text="i.c + i.d + i.e"></v-list-item-title>
+                  <v-list-item-sub-title v-text="new Date(i.f).toLocaleString()"></v-list-item-sub-title>
+                </v-list-item-content>
+              </v-list-item>
             </v-list>
           </v-container>
           <v-container fluid>
@@ -109,98 +108,96 @@
             <v-switch label="Speak" v-model="c.c"></v-switch>
           </v-container>
         </v-content>
-        <v-bottom-nav
-          app
-          :active.sync="f"
-          :value="true"
-          color="yellow accent-1"
-        >
-          <v-btn flat color="blue accent-1" value="left">
+        <v-bottom-navigation app v-model="f">
+          <v-btn value="left">
             <span>Edit</span>
-            <v-icon>edit</v-icon>
+            <v-icon>mdi-pencil</v-icon>
           </v-btn>
-          <v-btn flat color="blue accent-1" value="center">
+          <v-btn value="center">
             <span>Main</span>
-            <v-icon>chat</v-icon>
+            <v-icon>mdi-message-text</v-icon>
           </v-btn>
-          <v-btn flat color="blue accent-1" value="right">
+          <v-btn value="right">
             <span>Settings</span>
-            <v-icon>settings</v-icon>
+            <v-icon>mdi-settings</v-icon>
           </v-btn>
-        </v-bottom-nav>
+        </v-bottom-navigation>
       </v-app>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.6/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.1/vuetify.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.0.0-beta.3/vuetify.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-database.js"></script>
     <script>
-      firebase.initializeApp({ databaseURL: 'https://kitaharatavue.firebaseio.com/' });
-      const vm = new Vue({
-        el: '#app',
-        data: {
-          a: [],
-          b: { a: 'V', b: 'u', c: 'e' },
-          c: { a: 'T', b: 'a', c: false },
-          f: 'center',
-          n: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-          m: 'aiueo',
-          l: 'aiueon'
-        },
-        mounted() {
-          firebase.database().ref('t').limitToLast(5).on('child_added', snapshot => this.a.push({...snapshot.val(), id: snapshot.key}));
-          if (localStorage.getItem('b') !== null) {
-            this.b = JSON.parse(localStorage.getItem('b'));
-          }
-          if (localStorage.getItem('c') !== null) {
-            this.c = JSON.parse(localStorage.getItem('c'));
-          }
-        },
-        methods: {
-          myApp(x) {
-            if (x === 0) {
-              const d = new Date().getTime();
-              const t = {
-                a: this.c.a,
-                b: this.c.b,
-                c: this.b.a,
-                d: this.b.b,
-                e: this.b.c,
-                f: d
-              };
-              firebase.database().ref('t').push(t);
-              if (this.c.c === true) {
-                const s = new SpeechSynthesisUtterance();
-                s.lang = 'en-US'; // ja-JP
-                s.text = this.c.a + this.c.b + ': ' + this.b.a + this.b.b + this.b.c;
-                speechSynthesis.speak(s);
-              }
-            }
-            if (x === 1) {
-              this.b.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
-              this.b.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
-              this.b.c = this.l.charAt(Math.floor(Math.random() * this.l.length));
-              localStorage.setItem('b', JSON.stringify(this.b));
-            }
-            if (x === 2) {
-              this.c.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
-              this.c.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
-              localStorage.setItem('c', JSON.stringify(this.c));
-            }
-            if (x === 4) {
-              this.b.a = 'V';
-              this.b.b = 'u';
-              this.b.c = 'e';
-              localStorage.removeItem('b');
-            }
-            if (x === 5) {
-              this.c.a = 'T';
-              this.c.b = 'a';
-              this.c.c = false;
-              localStorage.removeItem('c');
-            }
-          }
+firebase.initializeApp({ databaseURL: 'https://kitaharatavue.firebaseio.com/' });
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+let vuetify = new Vuetify();
+let vm = new Vue({
+  el: '#app', vuetify,
+  data: {
+    a: [],
+    b: { a: 'V', b: 'u', c: 'e' },
+    c: { a: 'T', b: 'a', c: false },
+    f: 'center',
+    n: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    m: 'aiueo',
+    l: 'aiueon'
+  },
+  mounted() {
+    firebase.database().ref('t').limitToLast(5).on('child_added', snapshot => this.a.push({...snapshot.val(), id: snapshot.key}));
+    if (localStorage.getItem('b') !== null) {
+      this.b = JSON.parse(localStorage.getItem('b'));
+    }
+    if (localStorage.getItem('c') !== null) {
+      this.c = JSON.parse(localStorage.getItem('c'));
+    }
+  },
+  methods: {
+    myApp(x) {
+      if (x === 0) {
+        let d = new Date().getTime();
+        let t = {
+          a: this.c.a,
+          b: this.c.b,
+          c: this.b.a,
+          d: this.b.b,
+          e: this.b.c,
+          f: d
+        };
+        firebase.database().ref('t').push(t);
+        if (this.c.c === true) {
+          let s = new SpeechSynthesisUtterance();
+          s.lang = 'en-US'; // ja-JP
+          s.text = this.c.a + this.c.b + ': ' + this.b.a + this.b.b + this.b.c;
+          speechSynthesis.speak(s);
         }
-      });
+      }
+      if (x === 1) {
+        this.b.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
+        this.b.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
+        this.b.c = this.l.charAt(Math.floor(Math.random() * this.l.length));
+        localStorage.setItem('b', JSON.stringify(this.b));
+      }
+      if (x === 2) {
+        this.c.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
+        this.c.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
+        localStorage.setItem('c', JSON.stringify(this.c));
+      }
+      if (x === 4) {
+        this.b.a = 'V';
+        this.b.b = 'u';
+        this.b.c = 'e';
+        localStorage.removeItem('b');
+      }
+      if (x === 5) {
+        this.c.a = 'T';
+        this.c.b = 'a';
+        this.c.c = false;
+        localStorage.removeItem('c');
+      }
+    }
+  }
+});
     </script>
   </body>
 </html>
