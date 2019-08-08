@@ -131,7 +131,7 @@
     <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-database.js"></script>
     <script>
 firebase.initializeApp({ databaseURL: 'https://kitaharatavue.firebaseio.com/' });
-if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
 let vuetify = new Vuetify();
 let vm = new Vue({
   el: '#app', vuetify,
