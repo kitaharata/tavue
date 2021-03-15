@@ -12,16 +12,19 @@
     <link href="/static/favicon.ico" rel="icon" />
     <link href="/manifest.json" rel="manifest" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.7.95/css/materialdesignicons.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.0.0-beta.3/vuetify.min.css" rel="stylesheet" />
-    <style>[v-cloak] { display: none }</style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.9.55/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.4.6/vuetify.min.css" rel="stylesheet" />
+    <style>
+#app { background: #ffff8d }
+[v-cloak] { display: none }
+    </style>
   </head>
   <body>
     <div id="app">
       <v-app v-cloak>
-        <v-content v-if="f === 'left'">
+        <v-main v-if="f === 'left'">
           <v-container fluid>
-            <v-radio-group v-model="b.a" @change="localStorage.setItem('b', JSON.stringify(b))" row>
+            <v-radio-group v-model="b.a" @change="localStorage.setItem('tavueB', JSON.stringify(b))" row>
               <v-radio
                 v-for="i in n.length"
                 :key="i"
@@ -29,7 +32,7 @@
                 :value="n.charAt(i - 1)"
               ></v-radio>
             </v-radio-group>
-            <v-radio-group v-model="b.b" @change="localStorage.setItem('b', JSON.stringify(b))" row>
+            <v-radio-group v-model="b.b" @change="localStorage.setItem('tavueB', JSON.stringify(b))" row>
               <v-radio
                 v-for="i in m.length"
                 :key="i"
@@ -37,7 +40,7 @@
                 :value="m.charAt(i - 1)"
               ></v-radio>
             </v-radio-group>
-            <v-radio-group v-model="b.c" @change="localStorage.setItem('b', JSON.stringify(b))" row>
+            <v-radio-group v-model="b.c" @change="localStorage.setItem('tavueB', JSON.stringify(b))" row>
               <v-radio
                 v-for="i in l.length"
                 :key="i"
@@ -53,8 +56,8 @@
             <v-btn @click="myApp(1)">random</v-btn>
             <v-btn @click="myApp(4)">reset</v-btn>
           </v-container>
-        </v-content>
-        <v-content v-if="f === 'center'">
+        </v-main>
+        <v-main v-if="f === 'center'">
           <v-container fluid>
             <v-list two-line>
               <v-subheader>Timeline</v-subheader>
@@ -77,10 +80,10 @@
           <v-container fluid>
             <v-btn :disabled="a.length > 9" @click="myApp(0)">post</v-btn>
           </v-container>
-        </v-content>
-        <v-content v-if="f === 'right'">
+        </v-main>
+        <v-main v-if="f === 'right'">
           <v-container fluid>
-            <v-radio-group v-model="c.a" @change="localStorage.setItem('c', JSON.stringify(c))" row>
+            <v-radio-group v-model="c.a" @change="localStorage.setItem('tavueC', JSON.stringify(c))" row>
               <v-radio
                 v-for="i in n.length"
                 :key="i"
@@ -88,7 +91,7 @@
                 :value="n.charAt(i - 1)"
               ></v-radio>
             </v-radio-group>
-            <v-radio-group v-model="c.b" @change="localStorage.setItem('c', JSON.stringify(c))" row>
+            <v-radio-group v-model="c.b" @change="localStorage.setItem('tavueC', JSON.stringify(c))" row>
               <v-radio
                 v-for="i in m.length"
                 :key="i"
@@ -108,32 +111,33 @@
             <span class="subheading">Main</span>
             <v-switch label="Speak" v-model="c.c"></v-switch>
           </v-container>
-        </v-content>
-        <v-bottom-navigation app v-model="f">
-          <v-btn value="left">
-            <span>Edit</span>
-            <v-icon>mdi-pencil</v-icon>
+        </v-main>
+        <v-bottom-navigation
+          app
+          v-model="f"
+          :value="true"
+          color="yellow accent-1"
+        >
+          <v-btn text color="blue accent-1" value="left">
+            Edit <v-icon>mdi-pencil</v-icon>
           </v-btn>
-          <v-btn value="center">
-            <span>Main</span>
-            <v-icon>mdi-message-text</v-icon>
+          <v-btn text color="blue accent-1" value="center">
+            Main <v-icon>mdi-message-text</v-icon>
           </v-btn>
-          <v-btn value="right">
-            <span>Settings</span>
-            <v-icon>mdi-settings</v-icon>
+          <v-btn text color="blue accent-1" value="right">
+            Settings <v-icon>mdi-cog</v-icon>
           </v-btn>
         </v-bottom-navigation>
       </v-app>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.0.0-beta.3/vuetify.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.4.6/vuetify.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase.js"></script>
     <script>
 firebase.initializeApp({ databaseURL: 'https://kitaharatavue.firebaseio.com/' });
 if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
-let vuetify = new Vuetify();
-let vm = new Vue({
+const vuetify = new Vuetify();
+const vm = new Vue({
   el: '#app', vuetify,
   data: {
     a: [],
@@ -146,18 +150,14 @@ let vm = new Vue({
   },
   mounted() {
     firebase.database().ref('t').limitToLast(5).on('child_added', snapshot => this.a.push({...snapshot.val(), id: snapshot.key}));
-    if (localStorage.getItem('b') !== null) {
-      this.b = JSON.parse(localStorage.getItem('b'));
-    }
-    if (localStorage.getItem('c') !== null) {
-      this.c = JSON.parse(localStorage.getItem('c'));
-    }
+    if (localStorage.getItem('tavueB') !== null) this.b = JSON.parse(localStorage.getItem('tavueB'));
+    if (localStorage.getItem('tavueC') !== null) this.c = JSON.parse(localStorage.getItem('tavueC'));
   },
   methods: {
     myApp(x) {
       if (x === 0) {
-        let d = new Date().getTime();
-        let t = {
+        const d = Date.now();
+        const t = {
           a: this.c.a,
           b: this.c.b,
           c: this.b.a,
@@ -167,7 +167,7 @@ let vm = new Vue({
         };
         firebase.database().ref('t').push(t);
         if (this.c.c === true) {
-          let s = new SpeechSynthesisUtterance();
+          const s = new SpeechSynthesisUtterance();
           s.lang = 'en-US'; // ja-JP
           s.text = this.c.a + this.c.b + ': ' + this.b.a + this.b.b + this.b.c;
           speechSynthesis.speak(s);
@@ -177,24 +177,24 @@ let vm = new Vue({
         this.b.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
         this.b.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
         this.b.c = this.l.charAt(Math.floor(Math.random() * this.l.length));
-        localStorage.setItem('b', JSON.stringify(this.b));
+        localStorage.setItem('tavueB', JSON.stringify(this.b));
       }
       if (x === 2) {
         this.c.a = this.n.charAt(Math.floor(Math.random() * this.n.length));
         this.c.b = this.m.charAt(Math.floor(Math.random() * this.m.length));
-        localStorage.setItem('c', JSON.stringify(this.c));
+        localStorage.setItem('tavueC', JSON.stringify(this.c));
       }
       if (x === 4) {
         this.b.a = 'V';
         this.b.b = 'u';
         this.b.c = 'e';
-        localStorage.removeItem('b');
+        localStorage.removeItem('tavueB');
       }
       if (x === 5) {
         this.c.a = 'T';
         this.c.b = 'a';
         this.c.c = false;
-        localStorage.removeItem('c');
+        localStorage.removeItem('tavueC');
       }
     }
   }
